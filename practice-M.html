@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="react-container"></div>
+ <script type="text/babel">
+const Todolist = ({todolist,deleteHandler}) =>{
+return(
+    <div>
+    {todolist.map((todo,index) =>
+    <div key={index}>
+      <h4>{todo} &nbsp; <button onClick={() => deleteHandler(index)}>Delete</button> </h4>
+    </div>)}
+    </div>
+)
+}
+const App = () => {
+    const [task,setTask] = React.useState(" ");
+    const [todos,setTodos] = React.useState([]);
+const changeHandler = e =>{
+        setTask(e.target.value)
+    }
+const submitHandler = e =>{
+        e.preventDefault()
+        const newTodos = [...todos,task]
+        setTodos(newTodos)
+        setTask(" ")
+        }
+const deleteHandler = (indexValue) =>{
+        const newTodos = todos.filter((todo,index) => index !== indexValue);
+        setTodos(newTodos);
+        }
+return(
+    <div>
+    <center>
+    <h4>To Do Management Application
+    <form onSubmit={submitHandler}>
+    <input type='text' name='task' value={task} onChange={changeHandler} placeholder="add a task...." />&nbsp; &nbsp;
+    <input type='submit' value='Add' name='Add'/>
+    </form>
+    <Todolist todolist={todos} deleteHandler={deleteHandler}/></h4>
+    </center>
+    </div>
+)
+}  
+ReactDOM.render(<App/>,document.getElementById("react-container"))
+ </script>
+</body>
+</html>
