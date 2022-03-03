@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body{
+            padding: 50px;
+            background-color: #66ccff;
+            font-family: sans-serif;
+        }
+        #react-container{
+            display: flex;
+            justify-content: space-around;
+        }
+        .button{
+            color: white;
+            background-color: dodgerblue;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            padding: 5px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+
+        }
+        .input{
+            color: black;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            padding: 5px;
+            border-radius: 6px;
+        }
+        .Todolist{
+            width: 500px;
+            margin: 2% auto;
+            height: auto;
+        }
+        .box{
+            background-color: blueviolet;
+            color:white;
+            width: auto;
+            height: auto;
+            padding: 50px;
+        }
+        .btn-list{
+            color: white;
+            background-color: rgb(255, 30, 68);
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            padding: 5px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+            .btn-lst{
+            color: white;
+            background-color: rgb(30, 255, 150);
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            padding: 5px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="react-container"></div>
+
+    <script type="text/babel">
+
+
+const Todolist = ({todolist,deleteHandler,handleEditClick}) =>{
+
+return(
+    <div className="Todolist" >
+    {todolist.map((todo,index) =>
+    <div key={index}>
+      <h4>{todo} &nbsp; <button className="btn-list" onClick={() => deleteHandler(index)}>Delete</button> 
+        </h4>
+    </div>)}
+    </div>
+)
+}
+
+const App = () => {
+
+    const [task,setTask] = React.useState(" ");
+    const [todos,setTodos] = React.useState([]);
+
+    const changeHandler = e =>{
+        setTask(e.target.value)
+    }
+    const submitHandler = e =>{
+        e.preventDefault()
+        const newTodos = [...todos,task]
+        setTodos(newTodos)
+        setTask(" ")
+    }
+    const deleteHandler = (indexValue) =>{
+        const newTodos = todos.filter((todo,index) => index !== indexValue);
+        setTodos(newTodos);
+    }
+return(<div className="box">
+    <div>
+    <center>
+    <h4>To Do Management Application</h4>
+    <form onSubmit={submitHandler}>
+    <input className="input" type='text' name='task' value={task} onChange={changeHandler} placeholder="add a task...." />
+    <input className="button" type='submit' value='Add' name='Add'/>
+    </form>
+    </center>
+</div>
+    <div>
+    <Todolist todolist={todos} deleteHandler={deleteHandler}/>
+    </div>
+    </div>
+)
+}  
+   ReactDOM.render(<App/>,document.getElementById("react-container"))
+        </script>
+    
+</body>
+</html>
